@@ -59,7 +59,7 @@ input/output example, and a runnable entry point (`console.log` / `if __name__`)
 standalone. Copy `_template.js` / `_template.py` when starting a new problem.
 
 ## Every problem now has an alternative approach
-Every solution file exposes a second, different way to solve the same problem — usually a
+Every solution file exposes a second, different way to solve the same problem - usually a
 trade-off worth being able to explain in an interview (different time/space complexity, or a more
 general version that works under looser assumptions). Convention:
 - Bare function/class exports: `module.exports = mainFn; module.exports.alternative = altFn;`
@@ -69,65 +69,3 @@ Examples: `two_sum_sorted.js` (two-pointer, needs sorted input) vs its hash-map 
 (works unsorted, O(n) space); `max_sum_subarray.js` (sliding window, O(n)) vs brute force (O(n·k));
 `paildrome.js` (reverse-and-compare) vs two-pointer (O(1) space instead of O(n));
 `queue.js` (array-based) vs a linked-list-backed alternative with true O(1) add/remove.
-
-## Bugs found and fixed while merging the legacy repo
-A full audit of every JS file — not just `00-fundamentals` — surfaced 11 genuine issues. This is
-exactly the value of daily practice + tests: a bug or wrong comment sitting untested for years gets
-caught the moment you write a real test against it.
-- **`characterCount.js` → `countAllChar`**: counted from 1 instead of 0 (`count[item] || 1`), inflating
-  every character count by one. Fixed to `count[item] || 0`.
-- **`rockPaperScissors.js`**: two functions were both named `playRPS` — the second silently overwrote
-  the first (same-name redeclaration), so the 2-player version was dead code. Renamed to
-  `playRPSTwoPlayer` and `playRPSVsComputer`, both now exported and tested.
-- **`mergeIntervals.js`**: typo `intervals.lenght` (should be `.length`) meant the empty-array guard
-  never fired. Fixed.
-- **`curning.js`**: filename typo (should be "currying") and no problem statement at all. Renamed to
-  `currying.js`, added proper docstrings, and exported the `get()` fluent-API function that was
-  written but never wired into `module.exports`.
-- **`curning.js`'s own inline comments were wrong**: claimed the chainable-API example outputs `20`
-  (actual math gives `15`), and implied `closure()` demonstrates the classic `var`-in-a-loop bug
-  (would print `3, 3, 3`) — it actually prints `0, 1, 2` correctly, because `i` is passed as an
-  argument to `print()`, creating a fresh binding per call. Fixed both the docstring and test.
-- **`fizzbuzz.js`**: the array-returning function (renamed `fizbuzz` → `fizzBuzzArray`) had typos in
-  its own output strings — `'fiz'` and `'fizbuzz'` instead of `'fizz'` and `'fizzbuzz'` — and had zero
-  test coverage. Fixed and added tests.
-- **`factorial.js` → `factorialRecur`**: claimed to be recursive but called `factorial(n - 1)` (the
-  iterative version) instead of calling itself — never actually recursed past one level. Fixed to
-  call `factorialRecur(n - 1)`.
-- **`steps.js` → `stepsLTR`**: off-by-one bug meant row 0 printed zero hashes instead of one —
-  `stepsLTR(3)` gave `['', '#', '##']` instead of `['#', '##', '###']`. Had zero test coverage (only
-  `steps` was tested, not the other 3 functions in the file). Fixed the loop and added tests for all
-  4 functions.
-- **`queue.js`'s own doc comment was wrong**: described a queue as "LIFO" — that's a stack. A queue
-  is FIFO. Fixed the docstring.
-- **`makeMatrix.js`'s own example comment was wrong**: claimed `matrix(2)` produces
-  `[[undefined, undefined], [undefined, undefined]]` — verified by running it that this is false; it
-  correctly produces `[[1, 2], [4, 3]]`. Added a regression test for this exact case.
-- **`LinkList.js`**: the `append` method existed and worked correctly but had **zero test coverage**
-  (not referenced anywhere in the original test file). Added tests.
-
-- **`level_width.py`'s Python port of the sentinel alternative had a JS-vs-Python truthiness bug**:
-  the JS original checks `node.children` truthiness to decide whether to count a node — and in JS,
-  an empty array is still truthy. Porting that check directly to Python as `if node.children:`
-  silently skipped leaf nodes (Python's empty list is falsy), undercounting levels with leaves.
-  Fixed by checking `hasattr(node, 'children')` instead of the list's truthiness — a good example of
-  a bug that only appears when porting between languages with different truthiness rules.
-
-Every JS file across all 15 pattern folders now has a complete docstring: problem statement, pattern,
-time/space complexity, and a worked input/output example — many had none, or only a partial comment,
-before this audit. **All 32 legacy problems (plus the 2 new ones) are now ported to Python as well,
-with full pytest coverage** — 107 Python tests, 34 files, all passing, matching the JS structure
-1-to-1 by pattern folder.
-
-## Daily Log
-| Date | Problem | Pattern | Python | JS | Notes |
-|------|---------|---------|--------|----|----|
-| 2026-09-06 | Two Sum II (sorted) | Two Pointers | ✅ | ✅ | + hash-map alternative |
-| 2026-09-06 | Max Sum Subarray (size K) | Sliding Window | ✅ | ✅ | + brute-force alternative |
-| 2026-09-06 | Migrated 32 legacy exercises (JS-DS-Interview) | Various | ✅ | ✅ | 173 JS tests + 107 Python tests, 12 issues fixed, every file has a full docstring + alternative method, full Python port with 1 additional truthiness bug caught during porting |
-
-## Progress toward 90-Day Plan targets
-- Day 30 target: 30–40 problems
-- Day 60 target: 70–80 problems
-- Day 90 target: 100–120 problems
-- **Current: 34 problems in both JS and Python (32 legacy + 2 new), full parity between languages**
