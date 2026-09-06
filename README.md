@@ -1,9 +1,6 @@
-# DSA Daily Practice — Shubham Jain
+# DSA Daily Practice
 
-Daily coding practice in **Python + JavaScript**, aligned with the 90-Day Job Switch Plan
-(Senior Backend / Distributed Systems / Platform roles). Includes the full legacy `JS-DS-Interview`
-repo, reorganized by pattern with tests filled in for every file. TypeScript was dropped —
-interviews want direct JS/Python, not a compiler step.
+Interviews want direct JS/Python, not a compiler step.
 
 ## Structure
 Each pattern gets its own folder. JS solutions live next to their test file (Jest auto-discovers `*.test.js`).
