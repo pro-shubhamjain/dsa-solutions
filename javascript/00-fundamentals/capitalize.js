@@ -15,6 +15,7 @@ function capitalize(input) {
       .join(' ');
  }
 
+
  // Alternative: explicit for-loop instead of split/map/join (this was the
  // original commented-out beginner version in this file -- wiring it up
  // instead of leaving it dead code). Same O(n) time, less concise.
@@ -26,6 +27,8 @@ function capitalize(input) {
     }
     return words.join(' ');
  }
+
+ console.log(capitalize('hi there, how is it going?')); // "Hi There, How Is It Going?"
 
  module.exports = capitalize;
  module.exports.alternative = capitalizeLoop;

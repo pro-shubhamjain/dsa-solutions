@@ -1,7 +1,7 @@
 {
   "name": "dsa-practice",
   "version": "1.0.0",
-  "description": "Daily DSA practice - Python + JavaScript",
+  "description": "Daily DSA practice - JavaScript",
   "scripts": {
     "test": "jest javascript --testPathIgnorePatterns=/node_modules/"
   },

@@ -94,7 +94,7 @@ function print(i) {
 }
 
 function closure() {
-  for(var i = 0 ; i<3; i++) {
+  for(let i = 0 ; i<3; i++) {
     print(i);
   }
 }
